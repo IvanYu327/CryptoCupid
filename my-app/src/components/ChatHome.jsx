@@ -86,63 +86,70 @@ const ChatHome = () => {
         </Text>
       </HStack>
       <HStack align="center">
-        <Heading
-          fontSize="64px"
-          fontWeight={400}
-          mt={6}
-          color="#3F3D50"
-          w="1600px"
-        >
+        <Heading fontSize="64px" fontWeight={400} mt={6} color="#3F3D50">
           Here are your matches!
         </Heading>
         <ConnectWallet />
       </HStack>
 
-      <div className="flex align-center flex-dir-col home">
-        {/* <button onClick={testSend}>Click to send intro message to Albert</button> */}
-
-        {client && (
-          <div className="card">
-            {/* {!selectedConvo && !isNewMsg ? ( */}
-            <>
-              <CardHeader setIsNewMsg={setIsNewMsg} />
-              <div className="conversation-list">
-                <ConversationList
-                  convoMessages={convoMessages}
-                  selectedConvo={selectedConvo}
-                  setSelectedConvo={setSelectedConvo}
-                  sendNewMatchMessage={sendNewMatchMessage}
-                />
-              </div>
-            </>
-            {/* ) : ( */}
-            <>
-              <div className="conversation-header align-center flex justify-start">
-                {/* <BackButton reset={reset} /> */}
-                <div className="identicon"></div>
-                <AddressInput
-                  isNewMsg={false}
-                  onInputBlur={onInputBlur}
-                  errorMsg={errorMsg}
-                  selectedConvo={selectedConvo}
-                />
-              </div>
-              <MessageList
-                isNewMsg={false}
-                convoMessages={convoMessages.get(selectedConvo) ?? []}
-                selectedConvo={selectedConvo}
-              />
-              <hr />
-              <MessageComposer
-                msgTxt={msgTxt}
-                setMsgTxt={setMsgTxt}
-                sendNewMessage={sendNewMessage}
-              />
-            </>
-            {/* )} */}
-          </div>
-        )}
-      </div>
+      {client ? (
+        <HStack
+          border="2px solid #3F3D50"
+          height="60vh"
+          width="80vw"
+          minWidth="200px"
+          minHeight="500px"
+          mt="54px"
+          spacing="0"
+        >
+          <Box
+            borderRight="2px solid #3F3D50"
+            width="15%"
+            minWidth="200px"
+            height="100%"
+          >
+            <ConversationList
+              convoMessages={convoMessages}
+              selectedConvo={selectedConvo}
+              setSelectedConvo={setSelectedConvo}
+              sendNewMatchMessage={sendNewMatchMessage}
+            />
+          </Box>
+          <Box height="100%" width="100%">
+            <Box
+              width="auto"
+              pt="6px"
+              pb="8px"
+              backgroundColor="rgba(42, 40, 62, 0.70)"
+              textAlign="center"
+              fontSize="1rem"
+              fontFamily={"heading"}
+            >
+              {selectedConvo}
+            </Box>
+            <MessageList
+              isNewMsg={false}
+              convoMessages={convoMessages.get(selectedConvo) ?? []}
+              selectedConvo={selectedConvo}
+            />
+            <hr />
+            <MessageComposer
+              msgTxt={msgTxt}
+              setMsgTxt={setMsgTxt}
+              sendNewMessage={sendNewMessage}
+            />
+          </Box>
+        </HStack>
+      ) : (
+        <Box
+          border="2px solid #3F3D50"
+          height="60vh"
+          width="80vw"
+          minWidth="200px"
+          minHeight="500px"
+          mt="54px"
+        ></Box>
+      )}
     </Box>
   );
 };

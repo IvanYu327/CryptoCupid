@@ -8,7 +8,7 @@ const ConnectWallet = () => {
   const [providerState] = useContext(XmtpContext);
 
   return (
-    <Box>
+    <Box marginLeft="2rem">
       {walletAddress ? (
         <div className="flex align-center header-mobile">
           {/* <h3>{shortAddress(walletAddress)}</h3> */}
