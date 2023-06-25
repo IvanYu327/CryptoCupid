@@ -41,30 +41,30 @@ const ConversationList = ({
   const checkIfOnNetwork = async (address) => {
     return (await client?.canMessage(address)) || false;
   };
-  let [emptyConvoAddresses, setEmptyConvoAddresses] = useState([]);
+  let [convos, setConvos] = useState([]);
 
   useEffect(() => {
-    async function populateEmptyConvoAddresses() {
-      let u = users
+    async function populateConvos() {
+      let c = Array.from(sortedConvos.keys()).filter(address => users.map((user) => user.walletAddress).includes(address));
+      let eu = users
         .map((user) => user.walletAddress)
-        .filter((addr) => !Array.from(sortedConvos.keys()).includes(addr))
+        .filter((addr) => !c.includes(addr))
         .filter((addr) => addr !== currentUser.walletAddress);
-      let v = [];
-      for (let a of u) {
+      for (let a of eu) {
         if (await checkIfOnNetwork(a)) {
-          v.push(a);
+          c.push(a);
         }
       }
-      setEmptyConvoAddresses(v);
+      setConvos(c);
     }
-    populateEmptyConvoAddresses();
+    populateConvos();
   }, []);
 
   let conversations = 0;
 
   return (
     <>
-      {Array.from(sortedConvos.keys()).map((address) => {
+      {convos.map((address) => {
         if (users.map((user) => user.walletAddress).includes(address)) {
           conversations++;
           return (
@@ -76,17 +76,6 @@ const ConversationList = ({
             />
           );
         }
-      })}
-      {emptyConvoAddresses.filter((addr) => !Array.from(sortedConvos.keys()).includes(addr)).map((address) => {
-        conversations++;
-        return (
-          <ConversationCard
-            key={"Convo_" + address}
-            setSelectedConvo={setSelectedConvo}
-            address={address}
-            latestMessage={getLatestMessage(sortedConvos.get(address))}
-          />
-        );
       })}
       {conversations === 0 && (
         <Box textAlign="center" paddingTop="32px">
