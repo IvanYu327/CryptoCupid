@@ -122,6 +122,8 @@ function Register() {
 
   return (
     <Box backgroundColor="#FCF9ED" h="full" pl="10%" pt="5%">
+      <Image src="./heart1.svg" position="fixed" top="30%" left="60%" />
+      <Image src="./heart2.svg" position="fixed" top="50%" left="72%" />
       <VStack alignItems="flex-start" maxW="600px">
         <HStack mb={4}>
           <Image src="./logo.svg" mr={2} h={"35px"} />
