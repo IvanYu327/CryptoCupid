@@ -4,10 +4,10 @@ ETH WATERLOO 2023 BABY
 
 To run CryptoCupid locally do:
 
-### `git clone https://github.com/IvanYu327/CryptoCupid.git`
+`git clone https://github.com/IvanYu327/CryptoCupid.git`
 
-### `cd crypto-cupid`
+`cd crypto-cupid`
 
-### `npm install`
+`npm install`
 
-### `npm start`
+`npm start`
