@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useContext, useEffect } from "react";
 import { XmtpContext } from "../contexts/XmtpContext";
 import useStreamConversations from "../hooks/useStreamConversations";
+import { Box, Text } from "@chakra-ui/react";
 
 import { getLatestMessage, shortAddress } from "../utils/utils";
 import ConversationCard from "./ConversationCard";
@@ -45,9 +46,9 @@ const ConversationList = ({
   useEffect(() => {
     async function populateEmptyConvoAddresses() {
       let u = users
-        .map(user => user.walletAddress)
-        .filter(addr => !Array.from(sortedConvos.keys()).includes(addr))
-        .filter(addr => addr != currentUser.walletAddress);
+        .map((user) => user.walletAddress)
+        .filter((addr) => !Array.from(sortedConvos.keys()).includes(addr))
+        .filter((addr) => addr !== currentUser.walletAddress);
       let v = [];
       for (let a of u) {
         if (await checkIfOnNetwork(a)) {
@@ -57,30 +58,43 @@ const ConversationList = ({
       setEmptyConvoAddresses(v);
     }
     populateEmptyConvoAddresses();
-  }, [])
+  }, []);
+
+  let conversations = 0;
 
   return (
     <>
-      {
-      Array.from(sortedConvos.keys()).map((address) =>
-        <ConversationCard
-          key={"Convo_" + address}
-          setSelectedConvo={setSelectedConvo}
-          address={address}
-          latestMessage={getLatestMessage(sortedConvos.get(address))}
-        />
-        )
-      }
-      {
-        emptyConvoAddresses.map((address) =>
-        <ConversationCard
-          key={"Convo_" + address}
-          setSelectedConvo={setSelectedConvo}
-          address={address}
-          latestMessage={getLatestMessage(sortedConvos.get(address))}
-        />
-        )
-      }
+      {Array.from(sortedConvos.keys()).map((address) => {
+        if (users.map((user) => user.walletAddress).includes(address)) {
+          conversations++;
+          return (
+            <ConversationCard
+              key={"Convo_" + address}
+              setSelectedConvo={setSelectedConvo}
+              address={address}
+              latestMessage={getLatestMessage(sortedConvos.get(address))}
+            />
+          );
+        }
+      })}
+      {emptyConvoAddresses.map((address) => {
+        conversations++;
+        return (
+          <ConversationCard
+            key={"Convo_" + address}
+            setSelectedConvo={setSelectedConvo}
+            address={address}
+            latestMessage={getLatestMessage(sortedConvos.get(address))}
+          />
+        );
+      })}
+      {conversations === 0 && (
+        <Box textAlign="center" paddingTop="32px">
+          <Box fontFamily="heading" as="i">
+            No matches yet!
+          </Box>
+        </Box>
+      )}
     </>
   );
 };

@@ -1,16 +1,17 @@
-import React from "react";
+import { useContext } from "react";
+
 import { shortAddress, truncate } from "../utils/utils";
-import {
-  Box,
-  Button,
-  Heading,
-  Text,
-  VStack,
-  Image,
-  HStack,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+
+import { UserContext } from "../pages/Home";
 
 const ConversationCard = ({ setSelectedConvo, address, latestMessage }) => {
+  const { users, currentUser } = useContext(UserContext);
+
+  const nickname = users.find(
+    (user) => user.walletAddress === address
+  )?.nickname;
+
   return (
     <Box
       onClick={() => setSelectedConvo(address)}
@@ -28,7 +29,7 @@ const ConversationCard = ({ setSelectedConvo, address, latestMessage }) => {
     >
       <div className="flex convo-info align-start flex-dir-col justify-start">
         <div>
-          <b>{shortAddress(address)}</b>
+          <b>{nickname ? nickname : shortAddress(address)}</b>
         </div>
         <div>{latestMessage && truncate(latestMessage.content, 75)}</div>
       </div>
