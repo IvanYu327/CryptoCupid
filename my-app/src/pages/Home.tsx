@@ -57,16 +57,50 @@ function Home() {
       return false;
     }
 
+    const theTable: any = {
+      'male': {
+        'heterosexual': ['female'],
+        'homosexual': ['male'],
+        'bisexual': ['male', 'female'],
+        'pansexual': ['male', 'female', 'non-binary'],
+        'asexual': []
+      },
+      'female': {
+        'heterosexual': ['male'],
+        'homosexual': ['female'],
+        'bisexual': ['male', 'female'],
+        'pansexual': ['male', 'female', 'non-binary'],
+        'asexual': []
+      },
+      'non-binary': {
+        'heterosexual': ['male', 'female', 'non-binary'],
+        'homosexual': ['non-binary'],
+        'bisexual': ['male', 'female', 'non-binary'],
+        'pansexual': ['male', 'female', 'non-binary'],
+        'asexual': []
+      }
+    }
     if (
-      user1.info.gender !== user2.preferences.gender ||
-      user2.info.gender !== user1.preferences.gender
+      !theTable[user1.genderIdentity][user1.sexualOrientation].includes(user2.genderIdentity) ||
+      !theTable[user2.genderIdentity][user2.sexualOrientation].includes(user1.genderIdentity)
     ) {
       return false;
     }
 
+    let [u1Age, u1LowerAge, u1UpperAge] = [
+      new Date().getFullYear() - parseInt(user1.info.birthYear),
+      parseInt(user1.info.lowerAge),
+      parseInt(user1.info.upperAge)
+    ];
+    let [u2Age, u2LowerAge, u2UpperAge] = [
+      new Date().getFullYear() - parseInt(user2.info.birthYear),
+      parseInt(user2.info.lowerAge),
+      parseInt(user2.info.upperAge)
+    ];
+
     if (
-      user1.info.age !== user2.preferences.age ||
-      user2.info.age !== user1.preferences.age
+      u1Age < u2LowerAge || u1Age > u2UpperAge ||
+      u2Age < u1LowerAge || u2Age > u1UpperAge
     ) {
       return false;
     }
