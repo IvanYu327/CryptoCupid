@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { XmtpContext } from "../contexts/XmtpContext";
 import useStreamConversations from "../hooks/useStreamConversations";
 
@@ -28,27 +28,59 @@ const ConversationList = ({
   console.log("users");
   console.log(users);
 
-  for (const user of users) {
-    if (!Array.from(sortedConvos.keys()).includes(user.walletAddress)) {
-      console.log(`Sending message to ${shortAddress(user.walletAddress)}`);
-      sendNewMatchMessage(user.walletAddress, currentUser.intro);
+  // for (const user of users) {
+  //   if (!Array.from(sortedConvos.keys()).includes(user.walletAddress)) {
+  //     console.log(`Sending message to ${shortAddress(user.walletAddress)}`);
+  //     sendNewMatchMessage(user.walletAddress, currentUser.intro);
+  //   }
+  // }
+
+  const [providerState] = useContext(XmtpContext);
+  const { client } = providerState;
+  const checkIfOnNetwork = async (address) => {
+    return (await client?.canMessage(address)) || false;
+  };
+  let [emptyConvoAddresses, setEmptyConvoAddresses] = useState([]);
+
+  useEffect(() => {
+    async function populateEmptyConvoAddresses() {
+      let u = users
+        .map(user => user.walletAddress)
+        .filter(addr => !Array.from(sortedConvos.keys()).includes(addr))
+        .filter(addr => addr != currentUser.walletAddress);
+      let v = [];
+      for (let a of u) {
+        if (await checkIfOnNetwork(a)) {
+          v.push(a);
+        }
+      }
+      setEmptyConvoAddresses(v);
     }
-  }
+    populateEmptyConvoAddresses();
+  }, [])
 
   return (
     <>
-      {Array.from(sortedConvos.keys()).map((address) => {
-        if (sortedConvos.get(address).length >= 0) {
-          return (
-            <ConversationCard
-              key={"Convo_" + address}
-              setSelectedConvo={setSelectedConvo}
-              address={address}
-              latestMessage={getLatestMessage(sortedConvos.get(address))}
-            />
-          );
-        } else return null;
-      })}
+      {
+      Array.from(sortedConvos.keys()).map((address) =>
+        <ConversationCard
+          key={"Convo_" + address}
+          setSelectedConvo={setSelectedConvo}
+          address={address}
+          latestMessage={getLatestMessage(sortedConvos.get(address))}
+        />
+        )
+      }
+      {
+        emptyConvoAddresses.map((address) =>
+        <ConversationCard
+          key={"Convo_" + address}
+          setSelectedConvo={setSelectedConvo}
+          address={address}
+          latestMessage={getLatestMessage(sortedConvos.get(address))}
+        />
+        )
+      }
     </>
   );
 };
