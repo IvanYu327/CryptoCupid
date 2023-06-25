@@ -45,10 +45,17 @@ const ChatHome = () => {
     }
   };
 
-  const testSend = () => {
-    setSelectedConvo("0x425020c08e6136eE1d570DB6F3fA08D14d3c9ef9");
-    const introMsg = "Hey this is an intro to myself. I love you.";
-    sendMessage(introMsg);
+  const sendNewMatchMessage = async (
+    walletId = "",
+    introMsg = "Hey this is an intro to myself. I love you."
+  ) => {
+    const isOnNetwork = await checkIfOnNetwork(walletId);
+    if (isOnNetwork) {
+      console.log(introMsg);
+      setSelectedConvo(walletId);
+      sendMessage(introMsg);
+      setSelectedConvo("");
+    }
   };
 
   const sendNewMessage = () => {
@@ -70,6 +77,7 @@ const ChatHome = () => {
                   convoMessages={convoMessages}
                   selectedConvo={selectedConvo}
                   setSelectedConvo={setSelectedConvo}
+                  sendNewMatchMessage={sendNewMatchMessage}
                 />
               </div>
             </>

@@ -131,8 +131,6 @@ function Home() {
 
   return (
     <div>
-      <h1>Home</h1>
-      <pre>{JSON.stringify(users, null, 2)}</pre>
       <UserContext.Provider value={{ users, currentUser }}>
         <ChatHome />
       </UserContext.Provider>
