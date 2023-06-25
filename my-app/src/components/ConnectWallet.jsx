@@ -17,10 +17,7 @@ const ConnectWallet = () => {
               padding="16px 24px"
               color="#2A283E"
               backgroundColor="#FCF9ED"
-              borderTop="2px solid #3F3D50"
-              borderRight="5px solid #3F3D50"
-              borderBottom="5px solid #3F3D50"
-              borderLeft="2px solid #3F3D50"
+              border="2px solid #3F3D50"
               borderRadius="0"
               fontFamily={"heading"}
               marginTop="30px"
@@ -40,10 +37,7 @@ const ConnectWallet = () => {
           padding="16px 24px"
           color="#2A283E"
           backgroundColor="#FCF9ED"
-          borderTop="2px solid #3F3D50"
-          borderRight="5px solid #3F3D50"
-          borderBottom="5px solid #3F3D50"
-          borderLeft="2px solid #3F3D50"
+          border="2px solid #3F3D50"
           borderRadius="0"
           fontFamily={"heading"}
           marginTop="30px"
