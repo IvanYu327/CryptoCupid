@@ -1,9 +1,12 @@
 import React from "react";
+import { useState, createContext, useContext } from "react";
 import { getLatestMessage } from "../utils/utils";
 import ConversationCard from "./ConversationCard";
+import { UserContext } from "../pages/Home";
 
 const ConversationList = ({ convoMessages, setSelectedConvo }) => {
-  
+  const users = useContext(UserContext);
+
   const sortedConvos = new Map(
     [...convoMessages.entries()].sort((convoA, convoB) => {
       return getLatestMessage(convoA[1])?.sent <
@@ -12,6 +15,8 @@ const ConversationList = ({ convoMessages, setSelectedConvo }) => {
         : -1;
     })
   );
+
+  console.log(users);
 
   return (
     <>

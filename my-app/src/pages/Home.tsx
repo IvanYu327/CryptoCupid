@@ -1,7 +1,9 @@
 import { Web3Storage } from "web3.storage";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import ChatHome from "../components/ChatHome";
+
+export const UserContext = createContext([]);
 
 function Home() {
   function getAccessToken() {
@@ -26,7 +28,10 @@ function Home() {
       throw new Error(`no files retrieved from ${cid}`);
     }
 
-    return {...JSON.parse(await files[0].text()), created: files[0].lastModified};
+    return {
+      ...JSON.parse(await files[0].text()),
+      created: files[0].lastModified,
+    };
   }
 
   async function retrieveAllCids() {
@@ -47,11 +52,17 @@ function Home() {
       return false;
     }
 
-    if (user1.info.gender != user2.preference.gender || user2.info.gender != user1.preference.gender) {
+    if (
+      user1.info.gender != user2.preference.gender ||
+      user2.info.gender != user1.preference.gender
+    ) {
       return false;
     }
 
-    if (user1.info.age != user2.preference.age || user2.info.age != user1.preference.age) {
+    if (
+      user1.info.age != user2.preference.age ||
+      user2.info.age != user1.preference.age
+    ) {
       return false;
     }
 
@@ -63,11 +74,11 @@ function Home() {
     let cids = await retrieveAllCids();
     cids.sort();
     let user = await retrieveUser(cid);
-    var seedrandom = require('seedrandom');
+    var seedrandom = require("seedrandom");
 
     for (let otherCid of cids) {
       let otherUser = await retrieveUser(cid);
-      if (!compatible({...user, cid}, {...otherUser, cid: otherCid})) {
+      if (!compatible({ ...user, cid }, { ...otherUser, cid: otherCid })) {
         continue;
       }
 
@@ -76,10 +87,10 @@ function Home() {
       let timeSince = new Date().valueOf() - Math.max(t1, t2);
       let halfLife = 1000 * 60 * 60 * 24; // one day
       let threshold = 1 - Math.pow(2, -timeSince / halfLife);
-      let seed = (cid < otherCid) ? (cid + otherCid) : (otherCid + cid);
+      let seed = cid < otherCid ? cid + otherCid : otherCid + cid;
 
       if (seedrandom(seed)() < threshold) {
-        result.push({...otherUser, cid: otherCid});
+        result.push({ ...otherUser, cid: otherCid });
       }
     }
 
@@ -91,7 +102,7 @@ function Home() {
     let cids = await retrieveAllCids();
 
     for (let cid of cids) {
-      result.push({...await retrieveUser(cid), cid});
+      result.push({ ...(await retrieveUser(cid)), cid });
     }
 
     return result;
@@ -113,7 +124,9 @@ function Home() {
     <div>
       <h1>Home</h1>
       <pre>{JSON.stringify(users, null, 2)}</pre>
-      <ChatHome />
+      <UserContext.Provider value={users}>
+        <ChatHome />
+      </UserContext.Provider>
     </div>
   );
 }
