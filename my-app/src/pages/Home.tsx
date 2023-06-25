@@ -125,7 +125,7 @@ function Home() {
       let t2 = otherUser.created.valueOf();
       let timeSince = new Date().valueOf() - Math.max(t1, t2);
       let halfLife = 1000 * 60 * 60 * 24; // one day
-      halfLife = 1000 * 60 * 1 * 1; // one hour
+      halfLife = 1000 * 1 * 1 * 1; // one second
       let threshold = 1 - Math.pow(2, -timeSince / halfLife);
       console.log(threshold);
       let seed = cid < otherCid ? cid + otherCid : otherCid + cid;

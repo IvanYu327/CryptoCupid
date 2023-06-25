@@ -77,7 +77,7 @@ const ConversationList = ({
           );
         }
       })}
-      {emptyConvoAddresses.map((address) => {
+      {emptyConvoAddresses.filter((addr) => !Array.from(sortedConvos.keys()).includes(addr)).map((address) => {
         conversations++;
         return (
           <ConversationCard
