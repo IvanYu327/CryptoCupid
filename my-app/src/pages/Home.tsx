@@ -3,7 +3,7 @@ import { useEffect, useState, createContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import ChatHome from "../components/ChatHome";
 
-export const UserContext = createContext([]);
+export const UserContext = createContext({ users: [], currentUser: null });
 
 function Home() {
   function getAccessToken() {
@@ -35,7 +35,7 @@ function Home() {
 
     return {
       ...JSON.parse(await files[0].text()),
-      created: new Date(status.created)
+      created: new Date(status.created),
     };
   }
 
@@ -116,6 +116,7 @@ function Home() {
   }
 
   const [users, setUsers]: [any, any] = useState([]);
+  const [currentUser, setCurrentUser]: [any, any] = useState(null);
   const [searchParams] = useSearchParams();
   const currCid = searchParams.get("cid") || "";
 
@@ -123,6 +124,7 @@ function Home() {
     async function populateUsers() {
       setUsers(await matchedUsers(currCid));
       // setUsers(await allUsers());
+      setCurrentUser(await retrieveUser(currCid));
     }
     populateUsers();
   }, []);
@@ -131,7 +133,7 @@ function Home() {
     <div>
       <h1>Home</h1>
       <pre>{JSON.stringify(users, null, 2)}</pre>
-      <UserContext.Provider value={users}>
+      <UserContext.Provider value={{ users, currentUser }}>
         <ChatHome />
       </UserContext.Provider>
     </div>

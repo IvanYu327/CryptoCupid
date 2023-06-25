@@ -68,6 +68,7 @@ const ChatHome = () => {
               <div className="conversation-list">
                 <ConversationList
                   convoMessages={convoMessages}
+                  selectedConvo={selectedConvo}
                   setSelectedConvo={setSelectedConvo}
                 />
               </div>
@@ -85,7 +86,7 @@ const ChatHome = () => {
                 />
               </div>
               <MessageList
-                isNewMsg={isNewMsg}
+                isNewMsg={false}
                 convoMessages={convoMessages.get(selectedConvo) ?? []}
                 selectedConvo={selectedConvo}
               />

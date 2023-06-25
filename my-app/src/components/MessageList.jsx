@@ -4,7 +4,8 @@ import MessageCard from "./MessageCard";
 
 const MessageList = ({ isNewMsg, convoMessages, selectedConvo }) => {
   useStreamMessages(selectedConvo);
-  
+
+  console.log(selectedConvo);
   return (
     <div className="msgs-container flex flex-dir-col">
       <div className="mt-auto">
