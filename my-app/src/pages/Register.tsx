@@ -23,8 +23,11 @@ function Register() {
   const [preferredGender, setPreferredGender] = useState("");
   const [intro, setIntro] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
+  const [age, setAge] = useState("");
+  const [preferredAge, setPreferredAge] = useState("");
 
   const genders = ["male", "female", "non-binary"];
+  const ageRange = ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"];
 
   const worldID = searchParams.get("id_token");
 
@@ -51,9 +54,11 @@ function Register() {
       intro,
       info: {
         gender,
+        age,
       },
       preferences: {
         gender: preferredGender,
+        age: preferredAge,
       },
     };
     const cid = await storeFiles(obj);
@@ -86,6 +91,14 @@ function Register() {
 
   const onPreferredGenderChange = (event: any) => {
     setPreferredGender(event.target.value);
+  };
+
+  const onAgeChange = (event: any) => {
+    setAge(event.target.value);
+  };
+
+  const onPreferredAgeChange = (event: any) => {
+    setPreferredAge(event.target.value);
   };
 
   return (
@@ -124,6 +137,20 @@ function Register() {
           >
             {genders.map((gender) => (
               <option value={gender}>{gender}</option>
+            ))}
+          </Select>
+          <Spacer h={8} />
+          <FormLabel as="legend">Age</FormLabel>
+          <Select placeholder="Select age" onChange={onAgeChange}>
+            {ageRange.map((age) => (
+              <option value={age}>{age}</option>
+            ))}
+          </Select>
+          <Spacer h={4} />
+          <FormLabel as="legend">Preferred Age</FormLabel>
+          <Select placeholder="Select age" onChange={onPreferredAgeChange}>
+            {ageRange.map((age) => (
+              <option value={age}>{age}</option>
             ))}
           </Select>
           <Spacer h={8} />
