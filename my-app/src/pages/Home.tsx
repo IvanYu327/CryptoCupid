@@ -81,8 +81,8 @@ function Home() {
       }
     }
     if (
-      !theTable[user1.genderIdentity][user1.sexualOrientation].includes(user2.genderIdentity) ||
-      !theTable[user2.genderIdentity][user2.sexualOrientation].includes(user1.genderIdentity)
+      !theTable[user1.info.sexualOrientation][user1.info.genderIdentity].includes(user2.info.sexualOrientation) ||
+      !theTable[user2.info.sexualOrientation][user2.info.genderIdentity].includes(user1.info.sexualOrientation)
     ) {
       return false;
     }
