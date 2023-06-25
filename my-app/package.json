@@ -15,16 +15,17 @@
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@xmtp/xmtp-js": "^9.1.7",
+    "buffer": "^6.0.3",
     "ethers": "^5.7.2",
     "framer-motion": "^10.12.17",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.0",
     "react-scripts": "5.0.1",
+    "seedrandom": "^3.0.5",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "web3.storage": "^4.5.4",
-    "buffer": "^6.0.3",
     "web3modal": "^1.9.9"
   },
   "devDependencies": {
