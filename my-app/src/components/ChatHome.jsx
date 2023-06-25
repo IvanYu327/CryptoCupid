@@ -9,6 +9,7 @@ import BackButton from "./BackButton";
 import MessageList from "./MessageList";
 import ConversationList from "./ConversationList";
 import useStreamConversations from "../hooks/useStreamConversations";
+import { shortAddress } from "../utils/utils";
 import {
   Box,
   Button,
@@ -86,47 +87,48 @@ const ChatHome = () => {
         </Text>
       </HStack>
       <HStack align="center">
-        <Heading
-          fontSize="64px"
-          fontWeight={400}
-          mt={6}
-          color="#3F3D50"
-          w="1600px"
-        >
+        <Heading fontSize="64px" fontWeight={400} mt={6} color="#3F3D50">
           Here are your matches!
         </Heading>
         <ConnectWallet />
       </HStack>
-
-      <div className="flex align-center flex-dir-col home">
-        {/* <button onClick={testSend}>Click to send intro message to Albert</button> */}
-
-        {client && (
-          <div className="card">
-            {/* {!selectedConvo && !isNewMsg ? ( */}
-            <>
-              <CardHeader setIsNewMsg={setIsNewMsg} />
-              <div className="conversation-list">
-                <ConversationList
-                  convoMessages={convoMessages}
-                  selectedConvo={selectedConvo}
-                  setSelectedConvo={setSelectedConvo}
-                  sendNewMatchMessage={sendNewMatchMessage}
-                />
-              </div>
-            </>
-            {/* ) : ( */}
-            <>
-              <div className="conversation-header align-center flex justify-start">
-                {/* <BackButton reset={reset} /> */}
-                <div className="identicon"></div>
-                <AddressInput
-                  isNewMsg={false}
-                  onInputBlur={onInputBlur}
-                  errorMsg={errorMsg}
-                  selectedConvo={selectedConvo}
-                />
-              </div>
+      <Box backgroundColor="#FCF9ED" pb="50px">
+        {client ? (
+          <HStack
+            border="2px solid #3F3D50"
+            height="500px"
+            width="80vw"
+            minWidth="200px"
+            mt="54px"
+            spacing="0"
+          >
+            <Box
+              borderRight="2px solid #3F3D50"
+              width="15%"
+              minWidth="200px"
+              height="100%"
+              overflowY="auto"
+            >
+              <ConversationList
+                convoMessages={convoMessages}
+                selectedConvo={selectedConvo}
+                setSelectedConvo={setSelectedConvo}
+                sendNewMatchMessage={sendNewMatchMessage}
+              />
+            </Box>
+            <Box height="100%" width="100%">
+              <Box
+                width="auto"
+                pt="6px"
+                pb="8px"
+                backgroundColor="rgba(42, 40, 62, 0.70)"
+                textAlign="center"
+                fontSize="1rem"
+                fontFamily={"heading"}
+                color="#FCF9ED"
+              >
+                {shortAddress(selectedConvo)}
+              </Box>
               <MessageList
                 isNewMsg={false}
                 convoMessages={convoMessages.get(selectedConvo) ?? []}
@@ -138,11 +140,18 @@ const ChatHome = () => {
                 setMsgTxt={setMsgTxt}
                 sendNewMessage={sendNewMessage}
               />
-            </>
-            {/* )} */}
-          </div>
+            </Box>
+          </HStack>
+        ) : (
+          <Box
+            border="2px solid #3F3D50"
+            height="500px"
+            width="80vw"
+            minWidth="200px"
+            mt="54px"
+          ></Box>
         )}
-      </div>
+      </Box>
     </Box>
   );
 };

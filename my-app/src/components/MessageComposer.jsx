@@ -1,18 +1,21 @@
 import React from "react";
-import Input from "./Input";
+import MessageInput from "./Input";
+import { Box, HStack } from "@chakra-ui/react";
 
 const MessageComposer = ({ msgTxt, setMsgTxt, sendNewMessage }) => {
   return (
-    <div className="flex">
-      <Input
-        setNewValue={setMsgTxt}
-        placeholder="Write a message"
-        value={msgTxt}
-      />
-      <button className="btn" onClick={sendNewMessage}>
-        Send
-      </button>
-    </div>
+    <Box borderTop="2px solid #3F3D50" padding="auto 0">
+      <HStack>
+        <MessageInput
+          setNewValue={setMsgTxt}
+          placeholder="Message ..."
+          value={msgTxt}
+        />
+        <button className="btn" onClick={sendNewMessage}>
+          Send
+        </button>
+      </HStack>
+    </Box>
   );
 };
 

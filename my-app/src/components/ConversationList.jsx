@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, createContext, useContext } from "react";
+import { useContext } from "react";
 import { XmtpContext } from "../contexts/XmtpContext";
 import useStreamConversations from "../hooks/useStreamConversations";
 
