@@ -28,9 +28,14 @@ function Home() {
       throw new Error(`no files retrieved from ${cid}`);
     }
 
+    const status = await client.status(cid);
+    if (!status) {
+      throw new Error(`failed to get status of ${cid}`);
+    }
+
     return {
       ...JSON.parse(await files[0].text()),
-      created: files[0].lastModified,
+      created: new Date(status.created)
     };
   }
 
@@ -77,16 +82,18 @@ function Home() {
     var seedrandom = require("seedrandom");
 
     for (let otherCid of cids) {
-      let otherUser = await retrieveUser(cid);
+      let otherUser = await retrieveUser(otherCid);
       if (!compatible({ ...user, cid }, { ...otherUser, cid: otherCid })) {
         continue;
       }
 
-      let t1 = user.created;
-      let t2 = otherUser.created;
+      let t1 = user.created.valueOf();
+      let t2 = otherUser.created.valueOf();
       let timeSince = new Date().valueOf() - Math.max(t1, t2);
       let halfLife = 1000 * 60 * 60 * 24; // one day
-      let threshold = 1 - Math.pow(40, -timeSince / halfLife);
+      halfLife = 1000 * 60 * 60 * 1; // one hour
+      let threshold = 1 - Math.pow(2, -timeSince / halfLife);
+      console.log(threshold);
       let seed = cid < otherCid ? cid + otherCid : otherCid + cid;
 
       if (seedrandom(seed)() < threshold) {
