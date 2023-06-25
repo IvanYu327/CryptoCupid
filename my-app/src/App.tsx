@@ -7,16 +7,27 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import { ChakraProvider } from "@chakra-ui/react";
 
+import { WalletContextProvider } from "./contexts/WalletContext";
+import { XmtpContextProvider } from "./contexts/XmtpContext";
+import { Buffer } from "buffer";
+import "./styles/styles.css";
+
+window.Buffer = Buffer;
+
 function App() {
   return (
     <ChakraProvider>
-      <Router>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/" element={<Landing />} />
-        </Routes>
-      </Router>
+      <WalletContextProvider>
+        <XmtpContextProvider>
+          <Router>
+            <Routes>
+              <Route path="/register" element={<Register />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Landing />} />
+            </Routes>
+          </Router>
+        </XmtpContextProvider>
+      </WalletContextProvider>
     </ChakraProvider>
   );
 }
