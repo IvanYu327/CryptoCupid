@@ -43,18 +43,8 @@ const ConversationList = ({
 
   const [providerState] = useContext(XmtpContext);
   const { convoMessagess, client } = providerState;
-  const [msgTxt, setMsgTxt] = useState("");
   const { sendMessage } = useSendMessage(selectedConvo);
   useStreamConversations();
-  const [isNewMsg, setIsNewMsg] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const reset = () => {
-    setSelectedConvo(null);
-    setIsNewMsg(false);
-    setErrorMsg("");
-    setMsgTxt("");
-  };
 
   const checkIfOnNetwork = async (address) => {
     return (await client?.canMessage(address)) || false;
@@ -71,6 +61,8 @@ const ConversationList = ({
             ? currentUser.intro
             : "Hey, we've matched! Let's chat!";
           await sendMessage(introMsg);
+        } else {
+          console.log("User is not on network");
         }
       }
     }

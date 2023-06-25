@@ -58,7 +58,7 @@ const ChatHome = () => {
 
   return (
     <div className="flex align-center flex-dir-col home">
-      <button onClick={testSend}>Click to send intro message to Albert</button>
+      {/* <button onClick={testSend}>Click to send intro message to Albert</button> */}
       <Header />
       {client && (
         <div className="card">
@@ -79,7 +79,7 @@ const ChatHome = () => {
                 <BackButton reset={reset} />
                 <div className="identicon"></div>
                 <AddressInput
-                  isNewMsg={isNewMsg}
+                  isNewMsg={false}
                   onInputBlur={onInputBlur}
                   errorMsg={errorMsg}
                   selectedConvo={selectedConvo}

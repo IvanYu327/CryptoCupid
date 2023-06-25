@@ -24,7 +24,7 @@ function Home() {
 
     const files = await res.files();
 
-    if (files.length == 0) {
+    if (files.length === 0) {
       throw new Error(`no files retrieved from ${cid}`);
     }
 
@@ -53,20 +53,20 @@ function Home() {
       return false;
     }
 
-    if (user1.cid == user2.cid) {
+    if (user1.cid === user2.cid) {
       return false;
     }
 
     if (
-      user1.info.gender != user2.preferences.gender ||
-      user2.info.gender != user1.preferences.gender
+      user1.info.gender !== user2.preferences.gender ||
+      user2.info.gender !== user1.preferences.gender
     ) {
       return false;
     }
 
     if (
-      user1.info.age != user2.preferences.age ||
-      user2.info.age != user1.preferences.age
+      user1.info.age !== user2.preferences.age ||
+      user2.info.age !== user1.preferences.age
     ) {
       return false;
     }
@@ -91,7 +91,7 @@ function Home() {
       let t2 = otherUser.created.valueOf();
       let timeSince = new Date().valueOf() - Math.max(t1, t2);
       let halfLife = 1000 * 60 * 60 * 24; // one day
-      halfLife = 1000 * 60 * 60 * 1; // one hour
+      halfLife = 1000 * 60 * 1 * 1; // one hour
       let threshold = 1 - Math.pow(2, -timeSince / halfLife);
       console.log(threshold);
       let seed = cid < otherCid ? cid + otherCid : otherCid + cid;
