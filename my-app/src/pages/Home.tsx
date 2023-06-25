@@ -130,7 +130,7 @@ function Home() {
   }, []);
 
   return (
-    <div>
+    <div style={{ height: "100vh", backgroundColor: "#FCF9ED" }}>
       <UserContext.Provider value={{ users, currentUser }}>
         <ChatHome />
       </UserContext.Provider>

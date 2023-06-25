@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Heading,
-  Text,
-  VStack,
-  Image,
-  HStack,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 const MessageCard = ({ msg, self }) => {
   console.log(msg.content);
