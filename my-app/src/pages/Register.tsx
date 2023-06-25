@@ -41,7 +41,7 @@ function Register() {
     "pansexual",
     "asexual",
   ];
-  const sexualOrientations = ["man", "woman", "non-binary"];
+  const sexualOrientations = ["male", "female", "non-binary"];
 
   const worldID = searchParams.get("id_token");
 
