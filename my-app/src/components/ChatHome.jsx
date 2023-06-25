@@ -8,6 +8,7 @@ import ConversationList from "./ConversationList";
 import useStreamConversations from "../hooks/useStreamConversations";
 import { shortAddress } from "../utils/utils";
 import { Box, Heading, Text, VStack, Image, HStack } from "@chakra-ui/react";
+import { UserContext } from "../pages/Home";
 
 const ChatHome = () => {
   const [providerState] = useContext(XmtpContext);
@@ -16,6 +17,8 @@ const ChatHome = () => {
   const [msgTxt, setMsgTxt] = useState("");
   const { sendMessage } = useSendMessage(selectedConvo);
   useStreamConversations();
+
+  const { users, currentUser } = useContext(UserContext);
 
   const checkIfOnNetwork = async (address) => {
     return (await client?.canMessage(address)) || false;
@@ -38,6 +41,10 @@ const ChatHome = () => {
     sendMessage(msgTxt);
     setMsgTxt("");
   };
+
+  const nickname = users.find(
+    (user) => user.walletAddress === selectedConvo
+  )?.nickname;
 
   return (
     <Box backgroundColor="#FCF9ED" pl="10%" pt="5%">
@@ -93,7 +100,7 @@ const ChatHome = () => {
                 fontFamily={"heading"}
                 color="#FCF9ED"
               >
-                {shortAddress(selectedConvo)}
+                {nickname ? nickname : shortAddress(selectedConvo)}
               </Box>
               <MessageList
                 isNewMsg={false}
