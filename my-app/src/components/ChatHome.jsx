@@ -13,7 +13,7 @@ import useStreamConversations from "../hooks/useStreamConversations";
 const ChatHome = () => {
   const [providerState] = useContext(XmtpContext);
   const { convoMessages, client } = providerState;
-  const [selectedConvo, setSelectedConvo] = useState(null);
+  const [selectedConvo, setSelectedConvo] = useState("");
   const [msgTxt, setMsgTxt] = useState("");
   const { sendMessage } = useSendMessage(selectedConvo);
   useStreamConversations();
@@ -69,43 +69,43 @@ const ChatHome = () => {
       <Header />
       {client && (
         <div className="card">
-          {!selectedConvo && !isNewMsg ? (
-            <>
-              <CardHeader setIsNewMsg={setIsNewMsg} />
-              <div className="conversation-list">
-                <ConversationList
-                  convoMessages={convoMessages}
-                  selectedConvo={selectedConvo}
-                  setSelectedConvo={setSelectedConvo}
-                  sendNewMatchMessage={sendNewMatchMessage}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="conversation-header align-center flex justify-start">
-                <BackButton reset={reset} />
-                <div className="identicon"></div>
-                <AddressInput
-                  isNewMsg={false}
-                  onInputBlur={onInputBlur}
-                  errorMsg={errorMsg}
-                  selectedConvo={selectedConvo}
-                />
-              </div>
-              <MessageList
+          {/* {!selectedConvo && !isNewMsg ? ( */}
+          <>
+            <CardHeader setIsNewMsg={setIsNewMsg} />
+            <div className="conversation-list">
+              <ConversationList
+                convoMessages={convoMessages}
+                selectedConvo={selectedConvo}
+                setSelectedConvo={setSelectedConvo}
+                sendNewMatchMessage={sendNewMatchMessage}
+              />
+            </div>
+          </>
+          {/* ) : ( */}
+          <>
+            <div className="conversation-header align-center flex justify-start">
+              {/* <BackButton reset={reset} /> */}
+              <div className="identicon"></div>
+              <AddressInput
                 isNewMsg={false}
-                convoMessages={convoMessages.get(selectedConvo) ?? []}
+                onInputBlur={onInputBlur}
+                errorMsg={errorMsg}
                 selectedConvo={selectedConvo}
               />
-              <hr />
-              <MessageComposer
-                msgTxt={msgTxt}
-                setMsgTxt={setMsgTxt}
-                sendNewMessage={sendNewMessage}
-              />
-            </>
-          )}
+            </div>
+            <MessageList
+              isNewMsg={false}
+              convoMessages={convoMessages.get(selectedConvo) ?? []}
+              selectedConvo={selectedConvo}
+            />
+            <hr />
+            <MessageComposer
+              msgTxt={msgTxt}
+              setMsgTxt={setMsgTxt}
+              sendNewMessage={sendNewMessage}
+            />
+          </>
+          {/* )} */}
         </div>
       )}
     </div>
