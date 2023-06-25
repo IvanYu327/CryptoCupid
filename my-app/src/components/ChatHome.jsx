@@ -33,11 +33,12 @@ const ChatHome = () => {
       console.log(introMsg);
       setSelectedConvo(walletId);
       sendMessage(introMsg);
-      setSelectedConvo("");
+      setSelectedConvo(null);
     }
   };
 
   const sendNewMessage = () => {
+    setSelectedConvo(selectedConvo);
     sendMessage(msgTxt);
     setMsgTxt("");
   };
@@ -103,7 +104,6 @@ const ChatHome = () => {
                 {nickname ? nickname : shortAddress(selectedConvo)}
               </Box>
               <MessageList
-                isNewMsg={false}
                 convoMessages={convoMessages.get(selectedConvo) ?? []}
                 selectedConvo={selectedConvo}
               />

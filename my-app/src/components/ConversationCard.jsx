@@ -5,7 +5,12 @@ import { Box } from "@chakra-ui/react";
 
 import { UserContext } from "../pages/Home";
 
-const ConversationCard = ({ setSelectedConvo, address, latestMessage }) => {
+const ConversationCard = ({
+  selectedConvo,
+  setSelectedConvo,
+  address,
+  latestMessage,
+}) => {
   const { users, currentUser } = useContext(UserContext);
 
   const nickname = users.find(
@@ -20,6 +25,7 @@ const ConversationCard = ({ setSelectedConvo, address, latestMessage }) => {
       width="100%"
       padding="16px 24px"
       m="0"
+      bg={selectedConvo === address ? "#F2E9E1" : ""}
       fontFamily={"heading"}
       transition="color 1s"
       _hover={{

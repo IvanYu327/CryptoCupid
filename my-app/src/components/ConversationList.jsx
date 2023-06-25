@@ -45,7 +45,9 @@ const ConversationList = ({
 
   useEffect(() => {
     async function populateConvos() {
-      let c = Array.from(sortedConvos.keys()).filter(address => users.map((user) => user.walletAddress).includes(address));
+      let c = Array.from(sortedConvos.keys()).filter((address) =>
+        users.map((user) => user.walletAddress).includes(address)
+      );
       let eu = users
         .map((user) => user.walletAddress)
         .filter((addr) => !c.includes(addr))
@@ -70,12 +72,14 @@ const ConversationList = ({
           return (
             <ConversationCard
               key={"Convo_" + address}
+              selectedConvo={selectedConvo}
               setSelectedConvo={setSelectedConvo}
               address={address}
               latestMessage={getLatestMessage(sortedConvos.get(address))}
             />
           );
         }
+        return null;
       })}
       {conversations === 0 && (
         <Box textAlign="center" paddingTop="32px">
