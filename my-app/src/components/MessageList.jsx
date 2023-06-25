@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import useStreamMessages from "../hooks/useStreamMessages";
 import MessageCard from "./MessageCard";
+import { UserContext } from "../pages/Home";
+import { Box } from "@chakra-ui/react";
 
 const MessageList = ({ isNewMsg, convoMessages, selectedConvo }) => {
   useStreamMessages(selectedConvo);
+  const { users, currentUser } = useContext(UserContext);
 
   return (
-    <div className="msgs-container flex flex-dir-col">
-      <div className="mt-auto">
-        {!isNewMsg &&
-          convoMessages.map((msg) => {
-            return <MessageCard key={msg.id} msg={msg} />;
-          })}
-      </div>
-    </div>
+    <Box height="410px" pt="40px" overflowY="auto">
+      {!isNewMsg &&
+        convoMessages.map((msg) => {
+          return (
+            <MessageCard
+              key={msg.id}
+              msg={msg}
+              self={currentUser.walletAddress === msg.senderAddress}
+            />
+          );
+        })}
+    </Box>
   );
 };
 
