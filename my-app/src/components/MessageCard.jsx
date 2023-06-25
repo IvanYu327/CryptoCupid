@@ -1,19 +1,32 @@
 import React from "react";
-import { shortAddress } from "../utils/utils";
+import {
+  Box,
+  Button,
+  Heading,
+  Text,
+  VStack,
+  Image,
+  HStack,
+} from "@chakra-ui/react";
 
-const MessageCard = ({ msg }) => {
+const MessageCard = ({ msg, self }) => {
+  console.log(msg.content);
   return (
-    <>
-      <div className="msg-header flex justify-start">
-        <div className="identicon" />
-        <div className="convo-info align-start flex-dir-col flex justify-start">
-          <div>
-            <b>{shortAddress(msg.senderAddress)}</b>
-          </div>
-          <div>{msg.content}</div>
-        </div>
-      </div>
-    </>
+    <Box mb="9px">
+      <Box
+        ml={self ? "auto" : "32px"}
+        bg={self ? "#2A283EB2" : "#F2E9E1"}
+        color={self ? "#FCF9ED" : "#3F3D50"}
+        mr="32px"
+        p="8px 12px"
+        maxWidth="200px"
+        wordBreak="break-word"
+        width="fit-content"
+        fontFamily="heading"
+      >
+        {msg.content}
+      </Box>
+    </Box>
   );
 };
 
