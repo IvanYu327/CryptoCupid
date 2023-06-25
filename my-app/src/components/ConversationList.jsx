@@ -16,6 +16,7 @@ const ConversationList = ({ convoMessages, setSelectedConvo }) => {
     })
   );
 
+  console.log("users");
   console.log(users);
 
   return (

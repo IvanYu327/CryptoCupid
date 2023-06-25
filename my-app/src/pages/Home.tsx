@@ -53,15 +53,15 @@ function Home() {
     }
 
     if (
-      user1.info.gender != user2.preference.gender ||
-      user2.info.gender != user1.preference.gender
+      user1.info.gender != user2.preferences.gender ||
+      user2.info.gender != user1.preferences.gender
     ) {
       return false;
     }
 
     if (
-      user1.info.age != user2.preference.age ||
-      user2.info.age != user1.preference.age
+      user1.info.age != user2.preferences.age ||
+      user2.info.age != user1.preferences.age
     ) {
       return false;
     }
@@ -86,7 +86,7 @@ function Home() {
       let t2 = otherUser.created;
       let timeSince = new Date().valueOf() - Math.max(t1, t2);
       let halfLife = 1000 * 60 * 60 * 24; // one day
-      let threshold = 1 - Math.pow(2, -timeSince / halfLife);
+      let threshold = 1 - Math.pow(40, -timeSince / halfLife);
       let seed = cid < otherCid ? cid + otherCid : otherCid + cid;
 
       if (seedrandom(seed)() < threshold) {
