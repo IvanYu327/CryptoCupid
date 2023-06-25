@@ -6,7 +6,7 @@ To run CryptoCupid locally do:
 
 ```
 git clone https://github.com/IvanYu327/CryptoCupid.git
-cd crypto-cupid
+cd my-app
 npm install
 npm start
 ```
