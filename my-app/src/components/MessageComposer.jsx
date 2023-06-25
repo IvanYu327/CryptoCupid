@@ -1,6 +1,7 @@
 import React from "react";
 import MessageInput from "./Input";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, IconButton } from "@chakra-ui/react";
+import { HiOutlinePaperAirplane } from "react-icons/hi";
 
 const MessageComposer = ({ msgTxt, setMsgTxt, sendNewMessage }) => {
   return (
@@ -11,9 +12,16 @@ const MessageComposer = ({ msgTxt, setMsgTxt, sendNewMessage }) => {
           placeholder="Message ..."
           value={msgTxt}
         />
-        <button className="btn" onClick={sendNewMessage}>
-          Send
-        </button>
+        <IconButton
+          icon={<HiOutlinePaperAirplane />}
+          aria-label="Send"
+          onClick={sendNewMessage}
+          mr="5px"
+          bg="none"
+          _hover="none"
+          size="lg"
+          transform="rotate(90deg)"
+        />
       </HStack>
     </Box>
   );

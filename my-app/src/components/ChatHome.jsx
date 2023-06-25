@@ -149,7 +149,21 @@ const ChatHome = () => {
             width="80vw"
             minWidth="200px"
             mt="54px"
-          ></Box>
+          >
+            <VStack marginTop="175px">
+              <Image src="./logo.svg" mr={2} h={"35px"} />
+              <Text
+                width="200px"
+                height="50px"
+                margin="auto"
+                fontFamily="heading"
+                as="i"
+                textAlign="center"
+              >
+                connect your credentials first to meet your matches
+              </Text>
+            </VStack>
+          </Box>
         )}
       </Box>
     </Box>

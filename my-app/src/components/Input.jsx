@@ -13,6 +13,7 @@ const MessageInput = ({ onInputBlur, value, setNewValue, placeholder }) => (
     border="0"
     height="100%"
     margin="auto 0"
+    boxShadow="none !important"
   />
 );
 
