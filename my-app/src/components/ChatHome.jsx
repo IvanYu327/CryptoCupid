@@ -45,6 +45,12 @@ const ChatHome = () => {
     }
   };
 
+  const testSend = () => {
+    setSelectedConvo("0x425020c08e6136eE1d570DB6F3fA08D14d3c9ef9");
+    const introMsg = "Hey this is an intro to myself. I love you.";
+    sendMessage(introMsg);
+  };
+
   const sendNewMessage = () => {
     sendMessage(msgTxt);
     setMsgTxt("");
@@ -52,6 +58,7 @@ const ChatHome = () => {
 
   return (
     <div className="flex align-center flex-dir-col home">
+      <button onClick={testSend}>Click to send intro message to Albert</button>
       <Header />
       {client && (
         <div className="card">

@@ -7,9 +7,9 @@ const CardHeader = ({ setIsNewMsg }) => {
         <h4>Conversations</h4>
       </div>
       <div>
-        <button onClick={() => setIsNewMsg(true)} className="btn">
+        {/* <button onClick={() => setIsNewMsg(true)} className="btn">
           + New message
-        </button>
+        </button> */}
       </div>
     </div>
   );
