@@ -4,10 +4,16 @@ import {
   Button,
   FormControl,
   FormLabel,
-  FormHelperText,
   Select,
   Spacer,
   Textarea,
+  Input,
+  NumberInputField,
+  NumberInput,
+  Image,
+  HStack,
+  Box,
+  Heading,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -17,17 +23,25 @@ import { Wallet } from "ethers";
 function Register() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const [nickname, setNickname] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   const [walletPrivateKey, setWalletPrivateKey] = useState("");
-  const [gender, setGender] = useState("");
-  const [preferredGender, setPreferredGender] = useState("");
+  const [sexualOrientation, setSexualOrientation] = useState("");
+  const [genderIdentity, setGenderIdentity] = useState("");
   const [intro, setIntro] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [age, setAge] = useState("");
-  const [preferredAge, setPreferredAge] = useState("");
+  const [birthYear, setBirthYear] = useState("");
+  const [lowerAge, setLowerAge] = useState("");
+  const [upperAge, setUpperAge] = useState("");
 
-  const genders = ["male", "female", "non-binary"];
-  const ageRange = ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"];
+  const genders = [
+    "heterosexual",
+    "homosexual",
+    "bisexual",
+    "pansexual",
+    "asexual",
+  ];
+  const sexualOrientations = ["man", "woman", "non-binary"];
 
   const worldID = searchParams.get("id_token");
 
@@ -35,6 +49,9 @@ function Register() {
     if (!worldID) {
       navigate("/");
     }
+    const wallet = Wallet.createRandom();
+    setWalletAddress(wallet.address);
+    setWalletPrivateKey(wallet.privateKey);
   }, [worldID, navigate]);
 
   function getAccessToken() {
@@ -49,16 +66,16 @@ function Register() {
   const handleSubmit = async () => {
     setSubmitLoading(true);
     const obj = {
-      walletAddress: walletAddress,
+      nickname,
+      walletAddress,
       worldID,
       intro,
       info: {
-        gender,
-        age,
-      },
-      preferences: {
-        gender: preferredGender,
-        age: preferredAge,
+        sexualOrientation,
+        genderIdentity,
+        birthYear,
+        lowerAge,
+        upperAge,
       },
     };
     const cid = await storeFiles(obj);
@@ -79,96 +96,283 @@ function Register() {
     return cid;
   }
 
-  async function createWallet() {
-    const wallet = Wallet.createRandom();
-    setWalletAddress(wallet.address);
-    setWalletPrivateKey(wallet.privateKey);
-  }
+  const onNicknameChange = (event: any) => {
+    setNickname(event.target.value);
+  };
+
+  const onSexChange = (event: any) => {
+    setSexualOrientation(event.target.value);
+  };
 
   const onGenderChange = (event: any) => {
-    setGender(event.target.value);
+    setGenderIdentity(event.target.value);
   };
 
-  const onPreferredGenderChange = (event: any) => {
-    setPreferredGender(event.target.value);
+  const onBirthYearChange = (event: any) => {
+    setBirthYear(event.target.value);
   };
 
-  const onAgeChange = (event: any) => {
-    setAge(event.target.value);
+  const onLowerAgeChange = (event: any) => {
+    setLowerAge(event.target.value);
   };
 
-  const onPreferredAgeChange = (event: any) => {
-    setPreferredAge(event.target.value);
+  const onUpperAgeChange = (event: any) => {
+    setUpperAge(event.target.value);
   };
 
   return (
-    <VStack>
-      <Text fontSize="3xl">Register</Text>
-      <VStack backgroundColor="gray.100" minW="500px" borderRadius={8} p={4}>
-        <Text fontSize="xl">Generate Wallet</Text>
-        {walletPrivateKey ? (
-          <VStack>
-            <Text>
-              Import this wallet into MetaMask and save the private key!
-            </Text>
-            <Text>Wallet Address: {walletAddress}</Text>
-            <Text>Wallet Private Key: {walletPrivateKey}</Text>
-          </VStack>
-        ) : (
-          <Button colorScheme="blue" onClick={() => createWallet()}>
-            Create wallet to chat
-          </Button>
-        )}
-      </VStack>
-      <VStack>
-        <Text fontSize="xl">Info & Preferences</Text>
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Gender</FormLabel>
-          <Select placeholder="Select gender" onChange={onGenderChange}>
-            {genders.map((gender) => (
-              <option value={gender}>{gender}</option>
-            ))}
-          </Select>
-          <Spacer h={4} />
-          <FormLabel as="legend">Preferred Gender</FormLabel>
-          <Select
-            placeholder="Select gender"
-            onChange={onPreferredGenderChange}
+    <Box backgroundColor="#FCF9ED" h="full" pl="10%" pt="5%">
+      <VStack alignItems="flex-start" maxW="600px">
+        <HStack mb={4}>
+          <Image src="./logo.svg" mr={2} h={"35px"} />
+          <Text
+            fontFamily={"logo"}
+            fontSize="22px"
+            fontWeight={400}
+            color="#3F3D50"
           >
-            {genders.map((gender) => (
-              <option value={gender}>{gender}</option>
-            ))}
-          </Select>
-          <Spacer h={8} />
-          <FormLabel as="legend">Age</FormLabel>
-          <Select placeholder="Select age" onChange={onAgeChange}>
-            {ageRange.map((age) => (
-              <option value={age}>{age}</option>
-            ))}
-          </Select>
-          <Spacer h={4} />
-          <FormLabel as="legend">Preferred Age</FormLabel>
-          <Select placeholder="Select age" onChange={onPreferredAgeChange}>
-            {ageRange.map((age) => (
-              <option value={age}>{age}</option>
-            ))}
-          </Select>
-          <Spacer h={8} />
-          <FormLabel>Intro</FormLabel>
-          <Textarea
-            placeholder="Hi! I'm Vitalik and I love ethereum. Looking forward to gething to know you better!"
-            onChange={(e) => setIntro(e.target.value)}
-          />
-          <FormHelperText>
-            This will be sent as your first message for each new conversation.
-          </FormHelperText>
-          <Spacer h={4} />
-          <Button onClick={handleSubmit} isLoading={submitLoading}>
-            Complete
-          </Button>
-        </FormControl>
+            crypto cupid
+          </Text>
+        </HStack>
+        <Heading fontWeight="400" fontSize="64px" mb="56px">
+          Let’s get you set up.
+        </Heading>
+        <VStack
+          fontFamily="heading"
+          fontWeight="400"
+          fontSize="24px"
+          alignItems="flex-start"
+          maxW="600px"
+        >
+          <Text>
+            Wallet Private Key <Text as="i">(save this!)</Text>
+          </Text>
+          {walletPrivateKey && (
+            <Text fontFamily="mono" wordBreak="break-word" color="#3F3D50">
+              {walletPrivateKey}
+            </Text>
+          )}
+          <FormControl as="fieldset" mt="32px">
+            <FormLabel
+              mb={4}
+              color="#3F3D50"
+              fontSize="24px"
+              fontWeight="400"
+              as="legend"
+            >
+              Nickname:
+            </FormLabel>
+            <Input
+              minH="60px"
+              size="lg"
+              fontSize="24px"
+              fontWeight="400"
+              placeholder="vitalik"
+              onChange={onNicknameChange}
+              border="2px rgba(63, 61, 80, 0.5) solid"
+              borderRadius="0"
+              _hover={{ border: "2px rgba(63, 61, 80, 0.5) solid" }}
+              _focus={{
+                borderColor: "rgba(63, 61, 80, 1)",
+                boxShadow: "none",
+                transition: "none",
+              }}
+            />
+            <Spacer h="48px" />
+            <FormLabel
+              mb={4}
+              color="#3F3D50"
+              fontSize="24px"
+              fontWeight="400"
+              as="legend"
+            >
+              What’s your gender identity?
+            </FormLabel>
+            <Select
+              minH="60px"
+              placeholder="select gender"
+              onChange={onGenderChange}
+              size="lg"
+              fontSize="24px"
+              fontWeight="400"
+              color="#3F3D50"
+              border="2px rgba(63, 61, 80, 0.5) solid"
+              borderRadius="0"
+              _hover={{ border: "2px rgba(63, 61, 80, 0.5) solid" }}
+              _focus={{
+                border: "2px rgba(63, 61, 80, 0.5) solid",
+                borderRight: "5px rgba(63, 61, 80, 0.5) solid",
+                borderBottom: "5px rgba(63, 61, 80, 0.5) solid",
+                boxShadow: "none",
+                transition: "none",
+              }}
+            >
+              {genders.map((gender) => (
+                <option value={gender}>{gender}</option>
+              ))}
+            </Select>
+            <Spacer h="48px" />
+            <FormLabel
+              mb={4}
+              color="#3F3D50"
+              fontSize="24px"
+              fontWeight="400"
+              as="legend"
+            >
+              What’s your sexual orientation?
+            </FormLabel>
+            <Select
+              minH="60px"
+              placeholder="select orientation"
+              onChange={onSexChange}
+              size="lg"
+              fontSize="24px"
+              fontWeight="400"
+              color="#3F3D50"
+              border="2px rgba(63, 61, 80, 0.5) solid"
+              borderRadius="0"
+              _hover={{ border: "2px rgba(63, 61, 80, 0.5) solid" }}
+              _focus={{
+                border: "2px rgba(63, 61, 80, 0.5) solid",
+                borderRight: "5px rgba(63, 61, 80, 0.5) solid",
+                borderBottom: "5px rgba(63, 61, 80, 0.5) solid",
+                boxShadow: "none",
+                transition: "none",
+              }}
+            >
+              {sexualOrientations.map((sex) => (
+                <option value={sex}>{sex}</option>
+              ))}
+            </Select>
+            <Spacer h="48px" />
+            <FormLabel
+              mb={4}
+              color="#3F3D50"
+              fontSize="24px"
+              fontWeight="400"
+              as="legend"
+            >
+              What’s your birth year?
+            </FormLabel>
+            <NumberInput size="lg">
+              <NumberInputField
+                minH="60px"
+                placeholder="1994"
+                onChange={onBirthYearChange}
+                fontSize="24px"
+                fontWeight="400"
+                border="2px rgba(63, 61, 80, 0.5) solid"
+                borderRadius="0"
+                _hover={{ border: "2px rgba(63, 61, 80, 0.5) solid" }}
+                _focus={{
+                  borderColor: "rgba(63, 61, 80, 1)",
+                  boxShadow: "none",
+                  transition: "none",
+                }}
+              />
+            </NumberInput>
+            <Spacer h="48px" />
+            <FormLabel
+              mb={4}
+              color="#3F3D50"
+              fontSize="24px"
+              fontWeight="400"
+              as="legend"
+            >
+              My match should be at least __ years old:
+            </FormLabel>
+            <NumberInput size="lg">
+              <NumberInputField
+                minH="60px"
+                placeholder="26"
+                onChange={onLowerAgeChange}
+                fontSize="24px"
+                fontWeight="400"
+                border="2px rgba(63, 61, 80, 0.5) solid"
+                borderRadius="0"
+                _hover={{ border: "2px rgba(63, 61, 80, 0.5) solid" }}
+                _focus={{
+                  borderColor: "rgba(63, 61, 80, 1)",
+                  boxShadow: "none",
+                  transition: "none",
+                }}
+              />
+            </NumberInput>
+            <Spacer h="48px" />
+            <FormLabel
+              mb={4}
+              color="#3F3D50"
+              fontSize="24px"
+              fontWeight="400"
+              as="legend"
+            >
+              My match should be at most __ years old:
+            </FormLabel>
+            <NumberInput size="lg">
+              <NumberInputField
+                minH="60px"
+                placeholder="31"
+                onChange={onUpperAgeChange}
+                fontSize="24px"
+                fontWeight="400"
+                border="2px rgba(63, 61, 80, 0.5) solid"
+                borderRadius="0"
+                _hover={{ border: "2px rgba(63, 61, 80, 0.5) solid" }}
+                _focus={{
+                  borderColor: "rgba(63, 61, 80, 1)",
+                  boxShadow: "none",
+                  transition: "none",
+                }}
+              />
+            </NumberInput>
+            <Spacer h="48px" />
+            <FormLabel mb={4} color="#3F3D50" fontSize="24px" fontWeight="400">
+              Write a short intro about yourself:
+            </FormLabel>
+            <Textarea
+              placeholder="Hi! I'm Vitalik and I love ethereum. Looking forward to gething to know you better!"
+              onChange={(e) => setIntro(e.target.value)}
+              size="lg"
+              fontSize="24px"
+              fontWeight="400"
+              minH="200px"
+              border="2px rgba(63, 61, 80, 0.5) solid"
+              borderRadius="0"
+              _hover={{ border: "2px rgba(63, 61, 80, 0.5) solid" }}
+              _focus={{
+                borderColor: "rgba(63, 61, 80, 1)",
+                boxShadow: "none",
+                transition: "none",
+              }}
+              resize="none"
+            />
+            <Spacer h="48px" />
+            <Button
+              minH="52px"
+              fontFamily={"heading"}
+              onClick={handleSubmit}
+              isLoading={submitLoading}
+              color="#2A283E"
+              backgroundColor="#FCF9ED"
+              border="2px #2A283E solid"
+              fontWeight={400}
+              borderRadius={0}
+              py={4}
+              px={6}
+              fontSize="20px"
+              mb={32}
+              _hover={{
+                border: "2px #2A283E solid",
+                borderRight: "5px #2A283E solid",
+                borderBottom: "5px #2A283E solid",
+              }}
+            >
+              save and continue
+            </Button>
+          </FormControl>
+        </VStack>
       </VStack>
-    </VStack>
+    </Box>
   );
 }
 
