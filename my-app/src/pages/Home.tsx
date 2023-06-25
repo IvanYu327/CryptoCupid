@@ -1,4 +1,5 @@
 import { Web3Storage } from "web3.storage";
+import ChatHome from "../components/ChatHome";
 
 function Home() {
   function getAccessToken() {
@@ -38,6 +39,7 @@ function Home() {
   return (
     <div>
       <h1>Home</h1>
+      <ChatHome />
     </div>
   );
 }
