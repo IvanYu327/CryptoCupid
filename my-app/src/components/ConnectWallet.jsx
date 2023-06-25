@@ -11,7 +11,6 @@ const ConnectWallet = () => {
     <Box marginLeft="2rem">
       {walletAddress ? (
         <div className="flex align-center header-mobile">
-          {/* <h3>{shortAddress(walletAddress)}</h3> */}
           {!providerState.client && (
             <Button
               onClick={() => providerState.initClient(signer)}
@@ -25,6 +24,11 @@ const ConnectWallet = () => {
               borderRadius="0"
               fontFamily={"heading"}
               marginTop="30px"
+              _hover={{
+                border: "2px #2A283E solid",
+                borderRight: "5px #2A283E solid",
+                borderBottom: "5px #2A283E solid",
+              }}
             >
               connect to xmtp
             </Button>
@@ -43,6 +47,11 @@ const ConnectWallet = () => {
           borderRadius="0"
           fontFamily={"heading"}
           marginTop="30px"
+          _hover={{
+            border: "2px #2A283E solid",
+            borderRight: "5px #2A283E solid",
+            borderBottom: "5px #2A283E solid",
+          }}
         >
           {!window.ethereum || !window.ethereum.isMetaMask
             ? "install metamask"

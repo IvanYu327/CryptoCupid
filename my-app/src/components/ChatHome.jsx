@@ -2,23 +2,12 @@ import React, { useContext, useState } from "react";
 import { XmtpContext } from "../contexts/XmtpContext";
 import useSendMessage from "../hooks/useSendMessage";
 import ConnectWallet from "./ConnectWallet";
-import CardHeader from "./CardHeader";
 import MessageComposer from "./MessageComposer";
-import AddressInput from "./AddressInput";
-import BackButton from "./BackButton";
 import MessageList from "./MessageList";
 import ConversationList from "./ConversationList";
 import useStreamConversations from "../hooks/useStreamConversations";
 import { shortAddress } from "../utils/utils";
-import {
-  Box,
-  Button,
-  Heading,
-  Text,
-  VStack,
-  Image,
-  HStack,
-} from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, Image, HStack } from "@chakra-ui/react";
 
 const ChatHome = () => {
   const [providerState] = useContext(XmtpContext);
@@ -27,32 +16,9 @@ const ChatHome = () => {
   const [msgTxt, setMsgTxt] = useState("");
   const { sendMessage } = useSendMessage(selectedConvo);
   useStreamConversations();
-  const [isNewMsg, setIsNewMsg] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const reset = () => {
-    setSelectedConvo(null);
-    setIsNewMsg(false);
-    setErrorMsg("");
-    setMsgTxt("");
-  };
 
   const checkIfOnNetwork = async (address) => {
     return (await client?.canMessage(address)) || false;
-  };
-
-  const onInputBlur = async (newAddress) => {
-    if (!newAddress.startsWith("0x") || newAddress.length !== 42) {
-      setErrorMsg("Invalid address");
-    } else {
-      const isOnNetwork = await checkIfOnNetwork(newAddress);
-      if (!isOnNetwork) {
-        setErrorMsg("Address not on XMTP network");
-      } else {
-        setSelectedConvo(newAddress);
-        setErrorMsg("");
-      }
-    }
   };
 
   const sendNewMatchMessage = async (
