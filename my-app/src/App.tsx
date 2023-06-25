@@ -1,7 +1,8 @@
+import "@fontsource-variable/alegreya";
+import "@fontsource/atkinson-hyperlegible";
 import React from "react";
 import "./App.css";
-import { Web3Storage } from "web3.storage";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -11,12 +12,13 @@ import { WalletContextProvider } from "./contexts/WalletContext";
 import { XmtpContextProvider } from "./contexts/XmtpContext";
 import { Buffer } from "buffer";
 import "./styles/styles.css";
+import theme from "./theme";
 
 window.Buffer = Buffer;
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <WalletContextProvider>
         <XmtpContextProvider>
           <Router>
