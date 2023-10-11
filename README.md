@@ -3,7 +3,9 @@
 A decentralized anonymous human to human dating platform powered by Worldcoin and XMTP
 
 🧞 Worldcoin — Most Creative trophy
+
 8️⃣ FVM — Top 8 trophy
+
 🥈 XMTP — Best Use
 
 # Running the Project
