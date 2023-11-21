@@ -6,12 +6,10 @@ import ChatHome from "../components/ChatHome";
 export const UserContext = createContext({ users: [], currentUser: null });
 
 function Home() {
-  function getAccessToken() {
-    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDg5MDlFNzU0OUNhRkRiM2ZiQzU4RGQzOUVDZDJjQWNFMjJEOTA5OTIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODc2MzIyMzEzNjQsIm5hbWUiOiJDcnlwdG9DdXBpZCJ9.KNk-wQt268jNxuppDvhIE7Cov_lyE8AKeuqdywEOR4s";
-  }
-
   function makeStorageClient() {
-    return new Web3Storage({ token: getAccessToken() });
+    return new Web3Storage({
+      token: process.env.REACT_APP_WEB3STORAGE_TOKEN as string,
+    });
   }
 
   async function retrieveUser(cid: string) {
@@ -57,31 +55,35 @@ function Home() {
     }
 
     const theTable: any = {
-      'male': {
-        'heterosexual': ['female'],
-        'homosexual': ['male'],
-        'bisexual': ['male', 'female'],
-        'pansexual': ['male', 'female', 'non-binary'],
-        'asexual': []
+      male: {
+        heterosexual: ["female"],
+        homosexual: ["male"],
+        bisexual: ["male", "female"],
+        pansexual: ["male", "female", "non-binary"],
+        asexual: [],
       },
-      'female': {
-        'heterosexual': ['male'],
-        'homosexual': ['female'],
-        'bisexual': ['male', 'female'],
-        'pansexual': ['male', 'female', 'non-binary'],
-        'asexual': []
+      female: {
+        heterosexual: ["male"],
+        homosexual: ["female"],
+        bisexual: ["male", "female"],
+        pansexual: ["male", "female", "non-binary"],
+        asexual: [],
       },
-      'non-binary': {
-        'heterosexual': ['male', 'female', 'non-binary'],
-        'homosexual': ['non-binary'],
-        'bisexual': ['male', 'female', 'non-binary'],
-        'pansexual': ['male', 'female', 'non-binary'],
-        'asexual': []
-      }
-    }
+      "non-binary": {
+        heterosexual: ["male", "female", "non-binary"],
+        homosexual: ["non-binary"],
+        bisexual: ["male", "female", "non-binary"],
+        pansexual: ["male", "female", "non-binary"],
+        asexual: [],
+      },
+    };
     if (
-      !theTable[user1.info.sexualOrientation][user1.info.genderIdentity].includes(user2.info.sexualOrientation) ||
-      !theTable[user2.info.sexualOrientation][user2.info.genderIdentity].includes(user1.info.sexualOrientation)
+      !theTable[user1.info.sexualOrientation][
+        user1.info.genderIdentity
+      ].includes(user2.info.sexualOrientation) ||
+      !theTable[user2.info.sexualOrientation][
+        user2.info.genderIdentity
+      ].includes(user1.info.sexualOrientation)
     ) {
       return false;
     }
@@ -89,17 +91,19 @@ function Home() {
     let [u1Age, u1LowerAge, u1UpperAge] = [
       new Date().getFullYear() - parseInt(user1.info.birthYear),
       parseInt(user1.info.lowerAge),
-      parseInt(user1.info.upperAge)
+      parseInt(user1.info.upperAge),
     ];
     let [u2Age, u2LowerAge, u2UpperAge] = [
       new Date().getFullYear() - parseInt(user2.info.birthYear),
       parseInt(user2.info.lowerAge),
-      parseInt(user2.info.upperAge)
+      parseInt(user2.info.upperAge),
     ];
 
     if (
-      u1Age < u2LowerAge || u1Age > u2UpperAge ||
-      u2Age < u1LowerAge || u2Age > u1UpperAge
+      u1Age < u2LowerAge ||
+      u1Age > u2UpperAge ||
+      u2Age < u1LowerAge ||
+      u2Age > u1UpperAge
     ) {
       return false;
     }

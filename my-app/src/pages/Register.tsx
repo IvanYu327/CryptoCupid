@@ -54,13 +54,10 @@ function Register() {
     setWalletPrivateKey(wallet.privateKey);
   }, [worldID, navigate]);
 
-  function getAccessToken() {
-    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDg5MDlFNzU0OUNhRkRiM2ZiQzU4RGQzOUVDZDJjQWNFMjJEOTA5OTIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODc2MzIyMzEzNjQsIm5hbWUiOiJDcnlwdG9DdXBpZCJ9.KNk-wQt268jNxuppDvhIE7Cov_lyE8AKeuqdywEOR4s";
-    // return process.env.REACT_APP_WEB3STORAGE_TOKEN || "";
-  }
-
   function makeStorageClient() {
-    return new Web3Storage({ token: getAccessToken() });
+    return new Web3Storage({
+      token: process.env.REACT_APP_WEB3STORAGE_TOKEN as string,
+    });
   }
 
   const handleSubmit = async () => {
